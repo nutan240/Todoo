@@ -16,12 +16,6 @@ function App() {
   const handleOnChange = (e) => {
     setInput(e.target.value);
   };
-  const handleDelete = (id) => {
-    const newdata = [...data];
-    newdata.splice(id, 1);
-    setData(newdata);
-    setInput('');
-  };
   const handleEdit = (index) => {
     setInput(data[index].name);
     setEdit(index);
@@ -35,11 +29,17 @@ function App() {
     console.log(data);
     setEdit(null);
     setInput('');
+  }; 
+  const handleDelete = (id) => {
+    const newdata = [...data];
+    newdata.splice(id, 1);
+    setData(newdata);
+    setInput('');
   };
-  const handleCheckboxChange = (index) => {
+  const handleCheckboxChange = (id) => {
     const newdata = [...data];
     console.log(newdata , data)
-    newdata[index].completed = !newdata[index].completed;
+    newdata[id].completed = !newdata[id].completed;
     setData(newdata);
   };
   return (
