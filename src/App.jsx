@@ -4,11 +4,13 @@ import './App.css';
 function App() {
   const [data, setData] = useState([]);
   const [input, setInput] = useState('');
-
+  const [edit, setEdit] = useState(null);
   const handleAddTodo = (e) => {
     e.preventDefault();
-    if(input!=='')
-    setData([...data, { name: input, id: Math.random() * 10 }]);
+    if(input!=='') {
+      const newData = [...data, { name: input, id: Math.random() * 10 }];
+      setData(newData);
+    }
     setInput('');
   };
   const handleOnChange = (e) => {
@@ -18,6 +20,20 @@ function App() {
     const newdata = [...data];
     newdata.splice(id, 1);
     setData(newdata);
+    setInput('');
+  };
+  const handleEdit = (index) => {
+    setInput(data[index].name);
+    setEdit(index);
+    console.log(edit);
+  };
+  
+  const saveChange = () => {
+    const newData = [...data];
+    newData[edit].name = input;
+    setData(newData);
+    console.log(data);
+    setEdit(null);
     setInput('');
   };
   const handleCheckboxChange = (index) => {
@@ -32,13 +48,14 @@ function App() {
         <div className='ml-5  mt-7  mb-0 mr-10 '>
           <h1 className='font-medium font-mono text-xl mb-1'>Todo App</h1>
           {data.map((e, index) => (
-            <p className='border-2 bg-white flex justify-between rounded pl-2 pr-4 py-1 mb-4 mt-1 w-full ' key={index}>
+            <p className='border-2 bg-white flex justify-between rounded pl-2 pr-4 py-1 mb-2 mt-1 w-full ' key={index}>
             <div>
               <input className='mx-2' type='checkbox' checked={e.completed} onChange={() => handleCheckboxChange(index)}/>
               {e.name}
               </div>
-              <span className='icons'>
-                <i className="fa-solid fa-trash-can" onClick={() => handleDelete(index)}></i>
+              <span className='icons flex gap-2'>
+                <i className="fa-solid fa-trash-can mt-2" onClick={() => handleDelete(index)}></i>
+              <i class="fa-solid fa-pencil mt-2" onClick={() => handleEdit(index)}></i>
                 {e.completed && <button className='my-1 ml-3 px-2 border-2 rounded ' type='submit'>Completed</button>}
               </span>
             </p>
@@ -58,6 +75,11 @@ function App() {
         <button className='my-1 px-2 border-2 rounded ' type='submit' onClick={handleAddTodo}>
           Submit
         </button>
+        {edit !== null && (
+          <button className='my-1 px-2 border-2 rounded ' type='button' onClick={saveChange}>
+            Update
+          </button>
+        )} 
       </form>
     </>
   );
