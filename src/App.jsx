@@ -8,32 +8,38 @@ function App() {
   const handleAddTodo = (e) => {
     e.preventDefault();
     if(input!=='') {
-      const newData = [...data, { name: input, id: Math.random() * 10 }];
+      const newData = [...data, { name: input, id: Math.floor(Math.random() * 10), check:false}];
       setData(newData);
     }
     setInput('');
   };
+  console.log(data);
+
   const handleOnChange = (e) => {
     setInput(e.target.value);
+
   };
   const handleEdit = (index) => {
     setInput(data[index].name);
     setEdit(index);
-    console.log(edit);
+    // console.log(edit);
   };
   
   const saveChange = () => {
     const newData = [...data];
     newData[edit].name = input;
     setData(newData);
-    console.log(data);
+    // console.log(data);
     setEdit(null);
     setInput('');
   }; 
   const handleDelete = (id) => {
+    console.log(id);
     const newdata = [...data];
-    newdata.splice(id, 1);
-    setData(newdata);
+    // console.log(newdata,":::::::")
+    const s =newdata.filter((value)=>value.id!==id)
+    console.log(s,":::>>>")
+    setData(s);
     setInput('');
   };
   const handleCheckboxChange = (id) => {
@@ -47,14 +53,14 @@ function App() {
       {data.length > 0 && (
         <div className='ml-5  mt-7  mb-0 mr-10 '>
           <h1 className='font-medium font-mono text-xl mb-1'>Todo App</h1>
-          {data.map((e, index) => (
-            <p className='border-2 bg-white flex justify-between rounded pl-2 pr-4 py-1 mb-2 mt-1 w-full ' key={index}>
+          {data.map((e) => (
+            <p className='border-2 bg-white flex justify-between rounded pl-2 pr-4 py-1 mb-2 mt-1 w-full ' key={e.id}>
             <div>
-              <input className='mx-2' type='checkbox' checked={e.completed} onChange={() => handleCheckboxChange(index)}/>
+              <input className='mx-2' type='checkbox' checked={e.check} onClick={() => handleCheckboxChange(e.id)}/>
               {e.name}
               </div>
               <span className='icons flex gap-2'>
-                <i className="fa-solid fa-trash-can mt-2" onClick={() => handleDelete(index)}></i>
+                <i className="fa-solid fa-trash-can mt-2" onClick={() => handleDelete(e.id)}></i>
               <i class="fa-solid fa-pencil mt-2" onClick={() => handleEdit(index)}></i>
                 {e.completed && <button className='my-1 ml-3 px-2 border-2 rounded ' type='submit'>Completed</button>}
               </span>
