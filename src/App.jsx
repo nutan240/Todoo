@@ -7,11 +7,20 @@ function App() {
   const [edit, setEdit] = useState(null);
   const handleAddTodo = (e) => {
     e.preventDefault();
-    if(input!=='') {
-      const newData = [...data, { name: input, id: Math.floor(Math.random() * 10), check:false}];
-      setData(newData);
+    if (input !== '') {
+      if (edit !== null) {
+        const id = edit[0].id;
+        setData(data.map((e) => (e.id === id ? { ...e, name: input } : e)));
+        setEdit(null);
+      } else {
+        const newData = [
+          ...data,
+          { name: input, id: Math.floor(Math.random() * 10), check: false },
+        ];
+        setData(newData);
+      }
+      setInput('');
     }
-    setInput('');
   };
   console.log(data);
   const handleOnChange = (e) => {
@@ -23,14 +32,6 @@ function App() {
     console.log(value ,"uytdregsfwasdfghjk")
     setInput(value[0].name);
     setEdit(value);
-  };
-  const saveChange = () => {
-    if (edit !== null) {
-      const id = edit[0].id;
-      setData(data.map((e) => (e.id === id ? { ...e, name: input } : e)));
-      setEdit(null); 
-      setInput(''); 
-    }
   };
   const handleDelete = (id) => {
     console.log(id);
@@ -46,11 +47,12 @@ function App() {
   };
   return (
     <>
+    <div className='w-screen min-h-screen'>
       {data.length > 0 && (
-        <div className='ml-5  mt-7  mb-0 mr-10 '>
+        <div className='ml-5  mt-7  mb-0 mr-10 w-98 '>
           <h1 className='font-medium font-mono text-xl mb-1'>Todo App</h1>
           {data.map((e) => (
-            <p className='border-2 bg-white flex justify-between rounded pl-2 pr-4 py-1 mb-2 mt-1 w-full ' key={e.id}>
+            <p className='border-2 bg-white flex justify-between rounded pl-2 pr-4 py-1 mb-2 mt-1 text-overflow-ellipsis b		' key={e.id}>
             <div>
               <input className='mx-2' type='checkbox' checked={e.check} onClick={() => handleCheckboxChange(e.id)}/>
               {e.name}
@@ -64,10 +66,10 @@ function App() {
           ))}
         </div>
       )}
-      <form className=' mb-7 pl-4 mt-0 mr-10 ' onSubmit={(e) => handleAddTodo(e)}>
+      <form className=' mb-7 pl-4 mt-0 mr-10 text-overflow-ellipsis overflow-hidden whitespace-nowrap ' onSubmit={(e) => handleAddTodo(e)}>
         <p>Todo</p>
-        <input
-          className='border-2 rounded my-1 w-full focus:outline-none'
+        <textarea
+          className='border-2 rounded my-1 w-full focus:outline-none h-fit'
           type='text'
           value={input}
           onChange={(e) => handleOnChange(e)}
@@ -77,12 +79,8 @@ function App() {
         <button className='my-1 px-2 border-2 rounded ' type='submit' onClick={handleAddTodo}>
           Submit
         </button>
-        {edit !== null && (
-          <button className='my-1 px-2 border-2 rounded ' type='button' onClick={saveChange}>
-            Update
-          </button>
-        )} 
       </form>
+      </div>
     </>
   );
 }
