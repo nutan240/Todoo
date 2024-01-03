@@ -14,39 +14,35 @@ function App() {
     setInput('');
   };
   console.log(data);
-
   const handleOnChange = (e) => {
     setInput(e.target.value);
-
   };
-  const handleEdit = (index) => {
-    setInput(data[index].name);
-    setEdit(index);
-    // console.log(edit);
+  const handleEdit = (id) => {
+    const newdata = data;
+    const value = newdata.filter((item) => item.id === id);
+    console.log(value ,"uytdregsfwasdfghjk")
+    setInput(value[0].name);
+    setEdit(value);
   };
-  
   const saveChange = () => {
-    const newData = [...data];
-    newData[edit].name = input;
-    setData(newData);
-    // console.log(data);
-    setEdit(null);
-    setInput('');
-  }; 
+    if (edit !== null) {
+      const id = edit[0].id;
+      setData(data.map((e) => (e.id === id ? { ...e, name: input } : e)));
+      setEdit(null); 
+      setInput(''); 
+    }
+  };
   const handleDelete = (id) => {
     console.log(id);
     const newdata = [...data];
-    // console.log(newdata,":::::::")
+    console.log(newdata,":::::::")
     const s =newdata.filter((value)=>value.id!==id)
-    console.log(s,":::>>>")
+    console.log(s,":::")
     setData(s);
     setInput('');
   };
   const handleCheckboxChange = (id) => {
-    const newdata = [...data];
-    console.log(newdata , data)
-    newdata[id].completed = !newdata[id].completed;
-    setData(newdata);
+    setData(data.map((e)=>e.id===id?{...e,check:!e.check}:e))
   };
   return (
     <>
@@ -61,8 +57,8 @@ function App() {
               </div>
               <span className='icons flex gap-2'>
                 <i className="fa-solid fa-trash-can mt-2" onClick={() => handleDelete(e.id)}></i>
-              <i class="fa-solid fa-pencil mt-2" onClick={() => handleEdit(index)}></i>
-                {e.completed && <button className='my-1 ml-3 px-2 border-2 rounded ' type='submit'>Completed</button>}
+              <i class="fa-solid fa-pencil mt-2" onClick={() => handleEdit(e.id)}></i>
+                {e.check && <button className='my-1 ml-3 px-2 border-2 rounded ' type='submit'>Completed</button>}
               </span>
             </p>
           ))}
