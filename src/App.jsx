@@ -29,16 +29,13 @@ function App() {
   const handleEdit = (id) => {
     const newdata = data;
     const value = newdata.filter((item) => item.id === id);
-    console.log(value ,"uytdregsfwasdfghjk")
     setInput(value[0].name);
     setEdit(value);
   };
   const handleDelete = (id) => {
     console.log(id);
     const newdata = [...data];
-    console.log(newdata,":::::::")
     const s =newdata.filter((value)=>value.id!==id)
-    console.log(s,":::")
     setData(s);
     setInput('');
   };
@@ -52,24 +49,28 @@ function App() {
         <div className='ml-5  mt-7  mb-0 mr-10 w-98 '>
           <h1 className='font-medium font-mono text-xl mb-1'>Todo App</h1>
           {data.map((e) => (
-            <p className='border-2 bg-white flex justify-between rounded pl-2 pr-4 py-1 mb-2 mt-1 text-overflow-ellipsis b		' key={e.id}>
+            <div className='border-2 bg-white flex justify-between rounded pl-2 pr-4 py-1 mb-2 mt-1 text-overflow-ellipsis 		' key={e.id}>
             <div>
               <input className='mx-2' type='checkbox' checked={e.check} onClick={() => handleCheckboxChange(e.id)}/>
+              <p className='break-all w-50'>
+
               {e.name}
+              </p>
+
               </div>
-              <span className='icons flex gap-2'>
+              <div className='icons flex gap-2'>
                 <i className="fa-solid fa-trash-can mt-2" onClick={() => handleDelete(e.id)}></i>
               <i class="fa-solid fa-pencil mt-2" onClick={() => handleEdit(e.id)}></i>
-                {e.check && <button className='my-1 ml-3 px-2 border-2 rounded ' type='submit'>Completed</button>}
-              </span>
-            </p>
+                {e.check && <button className=' border-2 rounded h-8 ' type='submit'>Completed</button>}
+              </div>
+            </div>
           ))}
         </div>
       )}
       <form className=' mb-7 pl-4 mt-0 mr-10 text-overflow-ellipsis overflow-hidden whitespace-nowrap ' onSubmit={(e) => handleAddTodo(e)}>
         <p>Todo</p>
         <textarea
-          className='border-2 rounded my-1 w-full focus:outline-none h-fit'
+          className='border-2 rounded my-1 w-full focus:outline-none h-auto'
           type='text'
           value={input}
           onChange={(e) => handleOnChange(e)}
