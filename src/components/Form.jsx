@@ -14,6 +14,7 @@ function Form(props) {
   const handleInputChange = (e) => {
     setInput(e.target.value); 
   };
+  
   return (
     <div className="">
       <form
