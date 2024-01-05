@@ -12,10 +12,9 @@ function Form({ input, setInput, handleAddTodo }) {
   };
   const handleInputChange = (e) => {
     setInput(e.target.value);
-   
   };
   return (
-    <div className="">
+    <>
       <form
         className="mb-7 pl-4   mt-0 mr-10 whitespace-nowrap"
         onSubmit={handleFormSubmit}
@@ -25,7 +24,7 @@ function Form({ input, setInput, handleAddTodo }) {
         <br />
         <Button title={'submit'} onSubmit={handleFormSubmit}  />
       </form>
-    </div>
+    </>
   );
 }
 

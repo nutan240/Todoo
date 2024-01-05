@@ -1,4 +1,4 @@
-import React, {  useState } from 'react';
+import React, { useState } from 'react';
 import Form from './components/Form';
 import List from './components/List';
 
@@ -7,7 +7,7 @@ function App() {
   const [tododata, setTododata] = useState([]);
   const [edit, setEdit] = useState('');
 
-  const handleAddTodo = (inputText ) => {
+  const handleAddTodo = (inputText) => {
     if (inputText !== '') {
       if (edit !== '') {
         const updatedTodos = tododata.map((todo) =>
@@ -39,16 +39,16 @@ function App() {
   };
 
   const handleEdit = (id) => {
-  const todoToEdit = tododata.find((todo) => todo.id === id);
-  if (todoToEdit) {
-    setEdit(todoToEdit); 
-    setInput(todoToEdit.name); 
-  }
-};
+    const todoToEdit = tododata.find((todo) => todo.id === id);
+    if (todoToEdit) {
+      setEdit(todoToEdit);
+      setInput(todoToEdit.name);
+    }
+  };
 
   return (
     <div className='w-screen h-screen overflow-x-hidden overflow-y-auto'>
-      <Form handleAddTodo={handleAddTodo}  input={input} setInput={setInput}  />
+      <Form handleAddTodo={handleAddTodo} input={input} setInput={setInput} />
       <List
         tododata={tododata}
         handleDelete={handleDelete}
