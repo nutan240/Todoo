@@ -1,20 +1,19 @@
-import React, { useState } from "react";
-
-function Form(props) {
-  const [input, setInput] = useState("");
-
+import React from "react";
+import Button from "./Button";
+import Input from "./Input";
+function Form({ input, setInput, handleAddTodo }) {
   const handleFormSubmit = (e) => {
     e.preventDefault();
     if (input.trim() !== "") {
-    setInput(e.target.value);
-    props.handleAddTodo(input);
+      setInput(e.target.value);
+      handleAddTodo(input);
       setInput("");
     }
   };
   const handleInputChange = (e) => {
-    setInput(e.target.value); 
+    setInput(e.target.value);
+   
   };
-  
   return (
     <div className="">
       <form
@@ -22,17 +21,9 @@ function Form(props) {
         onSubmit={handleFormSubmit}
       >
         <p>Todo</p>
-        <textarea
-          className="resize-y border-2 rounded my-1 w-full focus:outline-none "
-          type="text"
-          value={input}
-          onChange={handleInputChange}
-          placeholder="your task..."
-        />
+       <Input  handleInputChange={handleInputChange} input={input} />
         <br />
-        <button className="my-1 px-2 border-2 rounded" type="submit">
-          Submit
-        </button>
+        <Button title={'submit'} onSubmit={handleFormSubmit}  />
       </form>
     </div>
   );
