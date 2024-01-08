@@ -1,6 +1,6 @@
 import React from 'react';
 
-function Badge({ }) {
+function Badge({type, checked, handleCheckboxChange }) {
   return (
     <>
       <input className='mx-2 focus:outline-none' type={type} checked={checked} onChange={handleCheckboxChange} />

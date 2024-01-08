@@ -10,6 +10,11 @@ function Form({ input, setInput, handleAddTodo }) {
       setInput("");
     }
   };
+  const handleKeyPress = (e) => {
+    if (e.key === 'Enter') {
+      handleFormSubmit(e);
+    }
+  };
   const handleInputChange = (e) => {
     setInput(e.target.value);
   };
@@ -20,7 +25,7 @@ function Form({ input, setInput, handleAddTodo }) {
         onSubmit={handleFormSubmit}
       >
         <p>Todo</p>
-       <Input  handleInputChange={handleInputChange} input={input} />
+       <Input  handleInputChange={handleInputChange} input={input}  handleKeyPress={handleKeyPress}/>
         <br />
         <Button title={'submit'} onSubmit={handleFormSubmit}  />
       </form>

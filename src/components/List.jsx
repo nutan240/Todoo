@@ -13,7 +13,7 @@ function List({ tododata, handleDelete, handleCheckboxChange, handleEdit }) {
           {tododata.map((e) => (
             <div className='border-2 bg-white rounded pl-2 pr-4 py-1 mb-2 mt-1 text-overflow-ellipsis' key={e.id}>
               <div className='icons flex justify-between'>
-                <Badge />
+                <Badge type="checkbox" checked={e.check} handleCheckboxChange={() => handleCheckboxChange(e.id)}/>
                 <div className='flex gap-2'>
                   <Icon type="delete" handleClick={() => handleDelete(e.id)} />
                   <Icon type="edit" handleClick={() => handleEdit(e.id)} />
