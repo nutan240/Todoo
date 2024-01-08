@@ -24,7 +24,7 @@ function Form({ input, setInput, handleAddTodo }) {
         className="mb-7 pl-4   mt-0 mr-10 whitespace-nowrap"
         onSubmit={handleFormSubmit}
       >
-        <p>Todo</p>
+        <h1 className="font-serif  text-3xl">Todo</h1>
        <Input  handleInputChange={handleInputChange} input={input}  handleKeyPress={handleKeyPress}/>
         <br />
         <Button title={'submit'} onSubmit={handleFormSubmit}  />

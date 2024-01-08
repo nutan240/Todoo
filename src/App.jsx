@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import Form from './components/Form';
 import List from './components/List';
+import { v4 as uuidv4 } from 'uuid';
 
 function App() {
   const [input, setInput] = useState("");
@@ -18,7 +19,7 @@ function App() {
       } else {
         const newTodo = {
           name: inputText,
-          id: Math.floor(Math.random() * 10),
+        id:  uuidv4(),
           check: false,
         };
         setTododata([...tododata, newTodo]);
@@ -31,6 +32,7 @@ function App() {
   };
 
   const handleCheckboxChange = (id) => {
+    console.log(id,"===================");
     setTododata((prevTodos) =>
       prevTodos.map((todo) =>
         todo.id === id ? { ...todo, check: !todo.check } : todo

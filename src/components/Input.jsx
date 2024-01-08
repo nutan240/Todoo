@@ -21,6 +21,8 @@ function Input({ handleInputChange, input, handleKeyPress }) {
         onChange={handleInputChange}
         placeholder="your task..."
       />
+ 
+
     </>
   );
 }
