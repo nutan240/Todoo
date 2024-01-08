@@ -21,7 +21,7 @@ function Form({ input, setInput, handleAddTodo }) {
   return (
     <>
       <form
-        className="mb-7 pl-4   mt-0 mr-10 whitespace-nowrap"
+        className="mb-7 pl-4   mt-10 mr-10 whitespace-nowrap"
         onSubmit={handleFormSubmit}
       >
         <h1 className="font-serif  text-3xl">Todo</h1>

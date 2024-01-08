@@ -1,6 +1,6 @@
 import React from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faTrashAlt, faPencilAlt } from '@fortawesome/free-solid-svg-icons';
+import { faTrashAlt, faEdit } from '@fortawesome/free-solid-svg-icons';
 
 function Icon({ type, handleClick }) {
   let iconToRender;
@@ -10,12 +10,12 @@ function Icon({ type, handleClick }) {
       iconToRender = faTrashAlt;
       break;
     case 'edit':
-      iconToRender = faPencilAlt;
+      iconToRender = faEdit;
       break;
   }
   return (
     <>
-      <FontAwesomeIcon className='py-2' icon={iconToRender} onClick={handleClick} />
+      <FontAwesomeIcon className='py-2'   icon={iconToRender} onClick={handleClick} />
     </>
   );
 }

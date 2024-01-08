@@ -15,7 +15,7 @@ function Input({ handleInputChange, input, handleKeyPress }) {
     <>
       <textarea
         ref={textareaRef}
-        className="resize-y border-2 rounded my-1 w-full focus:outline-none h-auto  "
+        className="border border-slate-300  rounded-md pl-2 h-8 hover:shadow-lg w-full focus:outline-none "
         value={input}
         onKeyDown={handleKeyPress}
         onChange={handleInputChange}

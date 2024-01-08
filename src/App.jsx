@@ -49,7 +49,7 @@ function App() {
   };
 
   return (
-    <div className='w-screen h-screen overflow-x-hidden overflow-y-auto'>
+    <div className='w-[60%]   m-auto'>
       <Form handleAddTodo={handleAddTodo} input={input} setInput={setInput} />
       <List
         tododata={tododata}
