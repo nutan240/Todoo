@@ -2,12 +2,21 @@ import React, { useState } from 'react';
 import Form from './components/Form';
 import List from './components/List';
 import { v4 as uuidv4 } from 'uuid';
-
 function App() {
   const [input, setInput] = useState("");
   const [tododata, setTododata] = useState([]);
   const [edit, setEdit] = useState('');
 
+  const handleFormSubmit = (e) => {
+    e.preventDefault();
+    if (input.trim() !== "") {
+      handleAddTodo(input);
+      setInput("");
+    }
+  };
+  const handleInputChange = (e) => {
+    setInput(e.target.value);
+  };
   const handleAddTodo = (inputText) => {
     if (inputText !== '') {
       if (edit !== '') {
@@ -50,7 +59,7 @@ function App() {
 
   return (
     <div className='w-[60%]   m-auto'>
-      <Form handleAddTodo={handleAddTodo} input={input} setInput={setInput} />
+      <Form handleInputChange={handleInputChange} handleFormSubmit={handleFormSubmit} handleAddTodo={handleAddTodo} input={input} setInput={setInput} />
       <List
         tododata={tododata}
         handleDelete={handleDelete}
