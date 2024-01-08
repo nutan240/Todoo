@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import Form from './components/Form';
 import List from './components/List';
+import PropTypes from 'prop-types';
 import { v4 as uuidv4 } from 'uuid';
 function App() {
   const [input, setInput] = useState("");
@@ -69,5 +70,12 @@ function App() {
     </div>
   );
 }
+App.propTypes = {
+  handleInputChange: PropTypes.func.isRequired,
+  handleFormSubmit: PropTypes.func.isRequired,
+  handleAddTodo: PropTypes.func.isRequired,
+  input: PropTypes.string.isRequired,
+  setInput: PropTypes.func.isRequired,
+};
 
 export default App;
