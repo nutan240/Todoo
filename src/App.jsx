@@ -40,7 +40,6 @@ function App() {
     setTododata((prevTodos) => prevTodos.filter((todo) => todo.id !== id));
   };
   const handleCheckboxChange = (id) => {
-    console.log(id,"===================");
     setTododata((prevTodos) =>
       prevTodos.map((todo) =>
         todo.id === id ? { ...todo, check: !todo.check } : todo
@@ -75,7 +74,7 @@ function App() {
     }
   };
   return (
-    <div className='w-[60%]   m-auto'>
+    <div className='w-[60%]  overflow-hidden  m-auto'>
       <Form handleInputChange={handleInputChange} handleFormSubmit={handleFormSubmit} handleAddTodo={handleAddTodo} input={input} setInput={setInput} />
       <List
         tododata={tododata}

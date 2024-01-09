@@ -3,12 +3,14 @@ import Icon from './Icon';
 import CheckBox from './CheckBox';
 import Badge from './Badge';
 import Button from './Button';
+import PropTypes from 'prop-types';
+
 function List({ tododata,filteredData, handleDelete, handleCheckboxChange, handleEdit ,showall ,showcompleted ,showincompleted}) {
   return (
     <>
       <div>
         {tododata.length > 0 && (
-          <div className='ml-5 mt-7 mb-0 mr-10 text-balance break-words h-auto'>
+          <div className='ml-5 mt-7 mb-0 mr-10 overflow-hidden  text-balance break-words h-auto'>
             <h1 className='font-medium text-2xl font-serif mb-1'> Todo List </h1>
             <div className='flex gap-4 mb-4'>
         <Button title={'All'} onSubmit={showall}/>
@@ -36,4 +38,14 @@ function List({ tododata,filteredData, handleDelete, handleCheckboxChange, handl
     </>
   );
 }
+
+List.propTypes = {
+  filteredData: PropTypes.func.isRequired,
+  handleDelete: PropTypes.func.isRequired,
+  handleCheckboxChange: PropTypes.func.isRequired,
+  handleEdit: PropTypes.func.isRequired,
+  showall: PropTypes.func.isRequired,
+  showcompleted: PropTypes.func.isRequired,
+  showincompleted: PropTypes.func.isRequired,
+};
 export default List;

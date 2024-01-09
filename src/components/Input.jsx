@@ -1,4 +1,5 @@
 import React from 'react';
+import propTypes from 'prop-types'
 
 function Input({ handleInputChange, input}) {
 
@@ -13,5 +14,8 @@ function Input({ handleInputChange, input}) {
     </>
   );
 }
-
+Input.proptype={
+  onchange:propTypes.func.isRequired,
+  value:propTypes.string.isRequired
+}
 export default Input;
