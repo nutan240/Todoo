@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
 import Icon from './Icon';
-import CheckBox from './CheckBox';
 import Badge from './Badge';
 import Button from './Button';
 import PropTypes from 'prop-types';
+import Input from './Input';
 
 function List({ tododata,filteredData, handleDelete, handleCheckboxChange, handleEdit ,showall ,showcompleted ,showincompleted}) {
   return (
@@ -20,7 +20,7 @@ function List({ tododata,filteredData, handleDelete, handleCheckboxChange, handl
             {filteredData().map((e) => (
               <div className='border border-slate-300 rounded-md pl-2 pr-4 py-1 text-balance break-words mb-2 mt-1 text-overflow-ellipsis flex' key={e.id}>
                 <div className='icons flex w-full justify-between'>
-                  <CheckBox type="checkbox" checked={e.check} handleCheckboxChange={() => handleCheckboxChange(e.id)} />
+                  <Input type="checkbox" checked={e.check} handleInputChange={() => handleCheckboxChange(e.id)} />
                   <div className='text-balance flex justify-between text-left truncate break-words size-full'>
                     <p className='break-words break-all rounded-md pl-4'>{e.name}</p>
                     <div className='flex items-center gap-2'>
