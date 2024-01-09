@@ -7,7 +7,7 @@ function App() {
   const [input, setInput] = useState("");
   const [tododata, setTododata] = useState([]);
   const [edit, setEdit] = useState('');
-
+  const [filter, setFilter] = useState('all');
   const handleFormSubmit = (e) => {
     e.preventDefault();
     if (input.trim() !== "") {
@@ -36,11 +36,9 @@ function App() {
       }
     }
   };
-
   const handleDelete = (id) => {
     setTododata((prevTodos) => prevTodos.filter((todo) => todo.id !== id));
   };
-
   const handleCheckboxChange = (id) => {
     console.log(id,"===================");
     setTododata((prevTodos) =>
@@ -49,7 +47,6 @@ function App() {
       )
     );
   };
-
   const handleEdit = (id) => {
     const todoToEdit = tododata.find((todo) => todo.id === id);
     if (todoToEdit) {
@@ -57,7 +54,26 @@ function App() {
       setInput(todoToEdit.name);
     }
   };
-
+  const showall = () => {
+    setFilter('all');
+  };
+  const showcompleted = () => {
+    setFilter('complete');
+  };
+  const showincompleted = () => {
+    setFilter('incomplete');
+  };
+  const filteredData = () => {
+    switch (filter) {
+      case 'complete':
+        return tododata.filter((todo) => todo.check);
+      case 'incomplete':
+        return tododata.filter((todo) => !todo.check);
+      case 'all':
+      default:
+        return tododata;
+    }
+  };
   return (
     <div className='w-[60%]   m-auto'>
       <Form handleInputChange={handleInputChange} handleFormSubmit={handleFormSubmit} handleAddTodo={handleAddTodo} input={input} setInput={setInput} />
@@ -66,6 +82,10 @@ function App() {
         handleDelete={handleDelete}
         handleCheckboxChange={handleCheckboxChange}
         handleEdit={handleEdit}
+        showall={showall}
+        showcompleted={showcompleted}
+        showincompleted={showincompleted}
+        filteredData={filteredData}
       />
     </div>
   );
@@ -77,5 +97,4 @@ App.propTypes = {
   input: PropTypes.string.isRequired,
   setInput: PropTypes.func.isRequired,
 };
-
 export default App;

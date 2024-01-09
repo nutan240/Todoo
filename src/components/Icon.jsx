@@ -2,11 +2,12 @@ import React from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTrashAlt, faEdit } from '@fortawesome/free-solid-svg-icons';
 
-function Icon({ type, handleClick }) {
+function Icon({ type, handleClick,color }) {
   let iconToRender;
 
   switch (type) {
     case 'delete':
+
       iconToRender = faTrashAlt;
       break;
     case 'edit':
@@ -15,7 +16,7 @@ function Icon({ type, handleClick }) {
   }
   return (
     <>
-      <FontAwesomeIcon className='py-2'   icon={iconToRender} onClick={handleClick} />
+      <FontAwesomeIcon className={`py-2 ${color} `}   icon={iconToRender} onClick={handleClick} />
     </>
   );
 }
