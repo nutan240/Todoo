@@ -7,11 +7,11 @@ function Form({ input, handleInputChange, handleFormSubmit }) {
   return (
     <>
       <form
-        className="mb-7 pl-4 overflow-hidden  mt-10 mr-10 whitespace-nowrap"
+        className="mb-5 pl-4 overflow-hidden  mt-20 mr-10 whitespace-nowrap"
         onSubmit={handleFormSubmit}
       >
         <h1 className="font-serif  text-3xl">Todo</h1>
-       <Input  handleInputChange={handleInputChange} input={input}  />
+       <Input  width="w-[100%]" handleInputChange={handleInputChange} input={input}  />
         <br />
         <Button title={'submit'} onSubmit={handleFormSubmit}  />
       </form>

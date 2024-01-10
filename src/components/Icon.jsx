@@ -20,7 +20,9 @@ function Icon({ type, handleClick, color }) {
     </>
   );
 }
-Icon.PropTypes = {
-  onClick: PropTypes.func.isRequired
-}
+Icon.propTypes = {
+  type: PropTypes.oneOf(['delete', 'edit']).isRequired,
+  handleClick: PropTypes.func.isRequired,
+  color: PropTypes.string, 
+};
 export default Icon;

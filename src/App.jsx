@@ -1,44 +1,42 @@
+
 import React, { useState } from 'react';
 import Form from './components/Form';
 import List from './components/List';
 import PropTypes from 'prop-types';
 import { v4 as uuidv4 } from 'uuid';
+
 function App() {
-  const [input, setInput] = useState("");
+  const [todoinput, setTodoInput] = useState('');
   const [tododata, setTododata] = useState([]);
-  const [edit, setEdit] = useState('');
-  const [filter, setFilter] = useState('all');
+  const [sortedtodo, setSortedtodo] = useState('all');
+
   const handleFormSubmit = (e) => {
     e.preventDefault();
-    if (input.trim() !== "") {
-      handleAddTodo(input);
-      setInput("");
+    if (todoinput.trim() !== '') {
+      handleAddTodo(todoinput);
+      setTodoInput('');
     }
   };
+
   const handleInputChange = (e) => {
-    setInput(e.target.value);
+    setTodoInput(e.target.value);
   };
+
   const handleAddTodo = (inputText) => {
     if (inputText !== '') {
-      if (edit !== '') {
-        const updatedTodos = tododata.map((todo) =>
-          todo.id === edit.id ? { ...todo, name: inputText } : todo
-        );
-        setTododata(updatedTodos);
-        setEdit('');
-      } else {
-        const newTodo = {
-          name: inputText,
-        id:  uuidv4(),
-          check: false,
-        };
-        setTododata([...tododata, newTodo]);
-      }
+      const newTodo = {
+        name: inputText,
+        id: uuidv4(),
+        check: false,
+      };
+      setTododata([...tododata, newTodo]);
     }
   };
+
   const handleDelete = (id) => {
     setTododata((prevTodos) => prevTodos.filter((todo) => todo.id !== id));
   };
+
   const handleCheckboxChange = (id) => {
     setTododata((prevTodos) =>
       prevTodos.map((todo) =>
@@ -46,54 +44,57 @@ function App() {
       )
     );
   };
+
   const handleEdit = (id) => {
     const todoToEdit = tododata.find((todo) => todo.id === id);
     if (todoToEdit) {
-      setEdit(todoToEdit);
-      setInput(todoToEdit.name);
+      setTodoInput(todoToEdit.name);
+      handleDelete(id);
     }
   };
-  const showall = () => {
-    setFilter('all');
+
+  const handleFilterButton = (filterType) => {
+    setSortedtodo(filterType);
   };
-  const showcompleted = () => {
-    setFilter('complete');
-  };
-  const showincompleted = () => {
-    setFilter('incomplete');
-  };
+
   const filteredData = () => {
-    switch (filter) {
-      case 'complete':
+    switch (sortedtodo) {
+      case 'completed':
         return tododata.filter((todo) => todo.check);
-      case 'incomplete':
+      case 'incompleted':
         return tododata.filter((todo) => !todo.check);
       case 'all':
       default:
         return tododata;
     }
   };
+
   return (
-    <div className='w-[60%]  overflow-hidden  m-auto'>
-      <Form handleInputChange={handleInputChange} handleFormSubmit={handleFormSubmit} handleAddTodo={handleAddTodo} input={input} setInput={setInput} />
+    <div className='w-[60%] overflow-hidden m-auto'>
+      <Form
+        handleInputChange={handleInputChange}
+        handleFormSubmit={handleFormSubmit}
+        input={todoinput}
+        setTodoInput={setTodoInput}
+      />
       <List
         tododata={tododata}
         handleDelete={handleDelete}
         handleCheckboxChange={handleCheckboxChange}
         handleEdit={handleEdit}
-        showall={showall}
-        showcompleted={showcompleted}
-        showincompleted={showincompleted}
-        filteredData={filteredData}
+        handleFilterButton={handleFilterButton}
+        filteredData={filteredData()}
+        sortedtodo={sortedtodo}
       />
     </div>
   );
 }
+
 App.propTypes = {
   handleInputChange: PropTypes.func.isRequired,
   handleFormSubmit: PropTypes.func.isRequired,
-  handleAddTodo: PropTypes.func.isRequired,
-  input: PropTypes.string.isRequired,
-  setInput: PropTypes.func.isRequired,
+  todoinput: PropTypes.string.isRequired,
+  setTodoInput: PropTypes.func.isRequired,
 };
+
 export default App;

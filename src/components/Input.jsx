@@ -1,11 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-function Input({ handleInputChange, input ,type, checked }) {
+function Input({ handleInputChange, input ,type, checked ,width }) {
 
   return (
     <>
       <input 
-        className="border border-slate-300  rounded-md pl-2  py-3 mb-4 w-full focus:outline-none "
+        className={`border border-slate-300 ${width}  rounded-md  py-3  pl-4 focus:outline-none `}
         value={input}
         onChange={handleInputChange }
         placeholder="your task..."
