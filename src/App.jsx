@@ -3,16 +3,22 @@ import Form from './components/Form';
 import List from './components/List';
 import PropTypes from 'prop-types';
 import { v4 as uuidv4 } from 'uuid';
-
 function App() {
   const [todoinput, setTodoInput] = useState('');
   const [tododata, setTododata] = useState([]);
   const [sortedtodo, setSortedtodo] = useState('all');
-  const [edit, setEdit] = useState(null);
+  const [edit, setEdit] = useState(false);
+  const [editingTodoId, setEditingTodoId] = useState(null);
+  
 
   const handleFormSubmit = (e) => {
     e.preventDefault();
-    handleAddTodo();
+    if (edit) {
+      handleUpdateTodo();
+      
+    } else {
+      handleAddTodo();
+    }
   };
 
   const handleInputChange = (e) => {
@@ -20,21 +26,26 @@ function App() {
   };
 
   const handleAddTodo = () => {
-    if (todoinput !== '') {
-      if (edit !== null) {
-        const id = edit[0].id;
-        setTododata((prevData) =>
-          prevData.map((e) => (e.id === id ? { ...e, name: todoinput } : e))
-        );
-        setEdit(null);
-      } else {
-        const newTodo = {
-          name: todoinput,
-          id: uuidv4(),
-          check: false,
-        };
-        setTododata([...tododata, newTodo]);
-      }
+    if (todoinput.trim() !== '') {
+      const newTodo = {
+        name: todoinput,
+        id: uuidv4(),
+        check: false,
+      };
+      setTododata([...tododata, newTodo]);
+      setTodoInput('');
+    }
+  };
+
+  const handleUpdateTodo = () => {
+    if (editingTodoId) {
+      setTododata((prevData) =>
+        prevData.map((e) =>
+          e.id === editingTodoId ? { ...e, name: todoinput } : e
+        )
+      );
+      setEdit(false);
+      setEditingTodoId(null);
       setTodoInput('');
     }
   };
@@ -52,9 +63,16 @@ function App() {
   };
 
   const handleEdit = (id) => {
-    const editTodo = tododata.filter((e) => e.id === id);
-    setTodoInput(editTodo[0].name);
-    setEdit(editTodo);
+    const editTodo = tododata.find((e) => e.id === id);
+    setTodoInput(editTodo.name);
+    setEdit(true);
+    setEditingTodoId(id);
+  };
+
+  const handleCancelEdit = () => {
+    setEdit(false);
+    setEditingTodoId(null);
+    setTodoInput('');
   };
 
   const handleFilterButton = (filterType) => {
@@ -73,12 +91,15 @@ function App() {
   };
 
   return (
-    <div className='w-[60%] overflow-hidden m-auto'>
+    <div className='w-[60%] max-lg:[100%] max-sm:w-[100%] overflow-y-hidden m-auto pb-10'>
       <Form
         handleInputChange={handleInputChange}
         handleFormSubmit={handleFormSubmit}
         input={todoinput}
         setTodoInput={setTodoInput}
+        isEditing={edit}
+        handleUpdate={handleUpdateTodo}
+        handleCancel={handleCancelEdit}
       />
       <List
         tododata={tododata}
@@ -87,7 +108,9 @@ function App() {
         handleEdit={handleEdit}
         handleFilterButton={handleFilterButton}
         filteredData={filteredData()}
+        edit={edit}
         sortedtodo={sortedtodo}
+        editingTodoId={editingTodoId}
       />
     </div>
   );
