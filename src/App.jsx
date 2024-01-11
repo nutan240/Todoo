@@ -68,7 +68,6 @@ function App() {
       case 'incompleted':
         return tododata.filter((todo) => !todo.check);
       case 'all':
-      default:
         return tododata;
     }
   };
