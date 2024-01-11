@@ -66,7 +66,7 @@ function List({
                       {e.check && <Badge badge='completed' />}
                     </div>
                   </div>
-                </div>
+                </div>   
               </div>
             ))}
           </div>

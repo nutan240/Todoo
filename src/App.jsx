@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import Form from './components/Form';
 import List from './components/List';
@@ -9,27 +8,34 @@ function App() {
   const [todoinput, setTodoInput] = useState('');
   const [tododata, setTododata] = useState([]);
   const [sortedtodo, setSortedtodo] = useState('all');
+  const [edit, setEdit] = useState(null);
 
   const handleFormSubmit = (e) => {
     e.preventDefault();
-    if (todoinput.trim() !== '') {
-      handleAddTodo(todoinput);
-      setTodoInput('');
-    }
+    handleAddTodo();
   };
 
   const handleInputChange = (e) => {
     setTodoInput(e.target.value);
   };
 
-  const handleAddTodo = (inputText) => {
-    if (inputText !== '') {
-      const newTodo = {
-        name: inputText,
-        id: uuidv4(),
-        check: false,
-      };
-      setTododata([...tododata, newTodo]);
+  const handleAddTodo = () => {
+    if (todoinput !== '') {
+      if (edit !== null) {
+        const id = edit[0].id;
+        setTododata((prevData) =>
+          prevData.map((e) => (e.id === id ? { ...e, name: todoinput } : e))
+        );
+        setEdit(null);
+      } else {
+        const newTodo = {
+          name: todoinput,
+          id: uuidv4(),
+          check: false,
+        };
+        setTododata([...tododata, newTodo]);
+      }
+      setTodoInput('');
     }
   };
 
@@ -46,11 +52,9 @@ function App() {
   };
 
   const handleEdit = (id) => {
-    const todoToEdit = tododata.find((todo) => todo.id === id);
-    if (todoToEdit) {
-      setTodoInput(todoToEdit.name);
-      handleDelete(id);
-    }
+    const editTodo = tododata.filter((e) => e.id === id);
+    setTodoInput(editTodo[0].name);
+    setEdit(editTodo);
   };
 
   const handleFilterButton = (filterType) => {
