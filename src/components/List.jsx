@@ -4,18 +4,21 @@ import Button from "./Button";
 import Input from "./Input";
 import Icon from "./Icon";
 import Badge from "./Badge";
+import { useTodoContext } from "../TodoContext"; // Update the path accordingly
 
-function List({
-  tododata,
-  filteredData,
-  handleDelete,
-  handleCheckboxChange,
-  handleEdit,
-  handleFilterButton,
-  sortedtodo,
-  edit,
-  editingTodoId
-}) {
+function List() {
+  const {
+    tododata,
+    filteredData,
+    handleDelete,
+    handleCheckboxChange,
+    handleEdit,
+    handleFilterButton,
+    sortedtodo,
+    edit,
+    editingTodoId,
+  } = useTodoContext();
+
   const buttonData = [
     {
       title: "All",
@@ -36,13 +39,10 @@ function List({
 
   return (
     <>
-      <div >
+      <div>
         {tododata.length > 0 && (
-          <div className="ml-5 mt-7 mb-0 mr-10  text-balance    break-words ">
-            <h1 className="font-medium text-2xl font-serif mb-1">
-              {" "}
-              Todo List{" "}
-            </h1>
+          <div className="ml-5 mt-7 mb-0 mr-10 text-balance break-words">
+            <h1 className="font-medium text-2xl font-serif mb-1"> Todo List </h1>
             <div className="flex gap-4 mb-4">
               {buttonData.map((button) => (
                 <Button
@@ -54,16 +54,16 @@ function List({
               ))}
             </div>
             <div className="h-[300px] overflow-y-scroll ">
-              {filteredData.map((e) => (
+              {filteredData().map((e) => (
                 <div
                   className={`border ${
                     edit && e.id === editingTodoId
                       ? "border-blue-300"
                       : "border-slate-300"
-                  }  rounded-md pl-2 pr-4 py-1 text-balance break-words mb-2 mt-1  flex`}
+                  } rounded-md pl-2 pr-4 py-1 text-balance break-words mb-2 mt-1 flex`}
                   key={e.id}
                 >
-                  <div className="icons flex w-full  justify-between">
+                  <div className="icons flex w-full justify-between">
                     <Input
                       type="checkbox"
                       checked={e.check}
@@ -71,7 +71,7 @@ function List({
                     />
 
                     <div className="text-balance flex justify-between overflow-scroll text-left truncate break-words size-full ">
-                      <p className=" break-all rounded-md pt-1 pl-4 flex justify-center">
+                      <p className="break-all rounded-md pt-1 pl-4 flex justify-center">
                         {e.name}
                       </p>
                       <div className="flex items-center gap-2">
@@ -87,7 +87,7 @@ function List({
                             handleEdit(e.id);
                           }}
                         />
-                        {e.check && <Badge  badge="completed" />}
+                        {e.check && <Badge badge="completed" />}
                       </div>
                     </div>
                   </div>
