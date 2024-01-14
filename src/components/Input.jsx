@@ -1,13 +1,17 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-function Input({ handleInputChange, input ,type, checked ,width }) {
+import { useTodoContext } from '../TodoContext';
+function Input({width , handleInputChange,type, checked }) {
+
+
+  const { todoinput} = useTodoContext();
 
   return (
     <>
       <input 
         className={`border border-slate-300 ${width}  rounded-md  py-3  pl-4 focus:outline-none `}
-        value={input}
-        onChange={handleInputChange }
+        value={todoinput}
+        onChange={handleInputChange}
         placeholder="your task..."
         type={type}
         checked={checked} 
