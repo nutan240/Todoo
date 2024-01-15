@@ -5,20 +5,16 @@ import PropTypes from 'prop-types';
 import { v4 as uuidv4 } from 'uuid';
 import TodoContext from './TodoContext';
 
-
 function App() {
   const [todoinput, setTodoInput] = useState('');
   const [tododata, setTododata] = useState([]);
   const [sortedtodo, setSortedtodo] = useState('all');
   const [edit, setEdit] = useState(false);
   const [editingTodoId, setEditingTodoId] = useState(null);
-  
 
   const handleFormSubmit = (e) => {
-    e.preventDefault();
     if (edit) {
       handleUpdate();
-      
     } else {
       handleAddTodo();
     }
@@ -27,6 +23,12 @@ function App() {
   const handleInputChange = (e) => {
     setTodoInput(e.target.value);
   };
+
+const handleInputKeyDown = (e) => {
+  if (e.key === 'Enter') {
+    handleFormSubmit();
+  }
+};
 
   const handleAddTodo = () => {
     if (todoinput.trim() !== '') {
@@ -41,7 +43,7 @@ function App() {
   };
 
   const handleUpdate = () => {
-    if (editingTodoId !== null) {
+    if (editingTodoId) {
       setTododata((prevData) =>
         prevData.map((todo) =>
           todo.id === editingTodoId ? { ...todo, name: todoinput } : todo
@@ -67,13 +69,10 @@ function App() {
 
   const handleEdit = (id) => {
     const editTodo = tododata.find((e) => e.id === id);
-  
-    if (editTodo) {
-     
-      setTodoInput(editTodo.name); // Assuming 'editTodo' has a 'name' property
-      console.log('Edit Todo:', setTodoInput);
-      setEdit(true);
 
+    if (editTodo) {
+      setTodoInput(editTodo.name);
+      setEdit(true);
       setEditingTodoId(id);
     }
   };
@@ -84,8 +83,8 @@ function App() {
     setTodoInput('');
   };
 
-  const handleFilterButton = (filterType) => {
-    setSortedtodo(filterType);
+  const handleFilterButton = (filteredData) => {
+    setSortedtodo(filteredData);
   };
 
   const filteredData = () => {
@@ -95,9 +94,12 @@ function App() {
       case 'incompleted':
         return tododata.filter((todo) => !todo.check);
       case 'all':
+      default:
         return tododata;
     }
   };
+  
+
   const contextValue = {
     todoinput,
     setTodoInput,
@@ -114,37 +116,38 @@ function App() {
     isEditing: edit,
     handleUpdate,
     handleCancelEdit,
-    filteredData: filteredData(), 
+     filteredData:filteredData(),
     handleDelete,
     handleCheckboxChange,
     handleFilterButton,
-    handleEdit
+    handleEdit,
   };
 
   return (
     <TodoContext.Provider value={contextValue}>
-    <div className='w-[60%] max-lg:[100%] max-sm:w-[100%] overflow-y-hidden m-auto pb-10'>
-      <Form
-        handleInputChange={handleInputChange}
-        handleFormSubmit={handleFormSubmit}
-        input={todoinput}
-        setTodoInput={setTodoInput}
-        isEditing={edit}
-        handleUpdate={ handleUpdate}
-        handleCancel={handleCancelEdit}
-      />
-      <List
-        tododata={tododata}
+      <div className='w-[60%] max-lg:[100%] max-sm:w-[100%] overflow-y-hidden m-auto pb-10'>
+        <Form
+         
+          handleFormSubmit={handleFormSubmit}
+          input={todoinput}
+          setTodoInput={setTodoInput}
+          isEditing={edit}
+          handleUpdate={handleUpdate}
+          handleCancel={handleCancelEdit}
+          onkeyprees={handleInputKeyDown}
+        />
+        <List
+           tododata={tododata}
         handleDelete={handleDelete}
         handleCheckboxChange={handleCheckboxChange}
         handleEdit={handleEdit}
         handleFilterButton={handleFilterButton}
-        filteredData={filteredData()}
+        filteredData={filteredData}
         edit={edit}
         sortedtodo={sortedtodo}
-        editingTodoId={editingTodoId}
-      />
-    </div>
+        editingTodoId={editingTodoId}    
+            />
+      </div>
     </TodoContext.Provider>
   );
 }

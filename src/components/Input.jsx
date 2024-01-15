@@ -1,8 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { useTodoContext } from '../TodoContext';
-function Input({width , handleInputChange,type, checked }) {
-
+function Input({width , handleInputChange,type, checked , onkeyprees}) {
 
   const { todoinput} = useTodoContext();
 
@@ -15,6 +14,7 @@ function Input({width , handleInputChange,type, checked }) {
         placeholder="your task..."
         type={type}
         checked={checked} 
+        onkeyprees={onkeyprees}
       />
     </>
   );

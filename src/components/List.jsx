@@ -39,13 +39,10 @@ function List() {
 
   return (
     <>
-      <div >
+      <div>
         {tododata.length > 0 && (
-          <div className="ml-5 mt-7 mb-0 mr-10  text-balance    break-words ">
-            <h1 className="font-medium text-2xl font-serif mb-1">
-              {" "}
-              Todo List{" "}
-            </h1>
+          <div className="ml-5 mt-7 mb-0 mr-10 text-balance break-words">
+            <h1 className="font-medium text-2xl font-serif mb-1">Todo List</h1>
             <div className="flex gap-4 mb-4">
               {buttonData.map((button) => (
                 <Button
@@ -56,41 +53,41 @@ function List() {
                 />
               ))}
             </div>
-            <div className="h-[300px] overflow-y-scroll ">
-              {filteredData.map((e) => (
+            <div className="h-[300px] overflow-y-scroll">
+              {filteredData.map((todo) => (
                 <div
                   className={`border ${
-                    edit && e.id === editingTodoId
+                    edit && todo.id === editingTodoId
                       ? "border-blue-300"
                       : "border-slate-300"
                   }  rounded-md pl-2 pr-4 py-1 text-balance break-words mb-2 mt-1  flex`}
-                  key={e.id}
+                  key={todo.id}
                 >
-                  <div className="icons flex w-full  justify-between">
+                  <div className="icons flex w-full justify-between">
                     <Input
                       type="checkbox"
-                      checked={e.check}
-                      handleInputChange={() => handleCheckboxChange(e.id)}
+                      checked={todo.check}
+                      handleInputChange={() => handleCheckboxChange(todo.id)}
                     />
 
-                    <div className="text-balance flex justify-between overflow-scroll text-left truncate break-words size-full ">
-                      <p className=" break-all rounded-md pt-1 pl-4 flex justify-center">
-                        {e.name}
+                    <div className="text-balance flex justify-between overflow-scroll text-left truncate break-words size-full">
+                      <p className="break-all rounded-md pt-1 pl-4 flex justify-center">
+                        {todo.name}
                       </p>
                       <div className="flex items-center gap-2">
                         <Icon
                           type="delete"
-                          handleClick={() => handleDelete(e.id)}
+                          handleClick={() => handleDelete(todo.id)}
                           color="text-red-500"
                         />
                         <Icon
                           type="edit"
                           color="text-blue-500"
                           handleClick={() => {
-                            handleEdit(e.id);
+                            handleEdit(todo.id);
                           }}
                         />
-                        {e.check && <Badge  badge="completed" />}
+                        {todo.check && <Badge badge="completed" />}
                       </div>
                     </div>
                   </div>
