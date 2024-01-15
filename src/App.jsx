@@ -25,6 +25,7 @@ function App() {
   };
 
 const handleInputKeyDown = (e) => {
+  // console.log('vcgcvnb');
   if (e.key === 'Enter') {
     handleFormSubmit();
   }
@@ -43,6 +44,7 @@ const handleInputKeyDown = (e) => {
   };
 
   const handleUpdate = () => {
+    if (todoinput.trim() !== '') {
     if (editingTodoId) {
       setTododata((prevData) =>
         prevData.map((todo) =>
@@ -53,6 +55,7 @@ const handleInputKeyDown = (e) => {
       setEditingTodoId(null);
       setTodoInput('');
     }
+  }
   };
 
   const handleDelete = (id) => {
@@ -77,9 +80,9 @@ const handleInputKeyDown = (e) => {
     }
   };
 
-  const handleCancelEdit = () => {
+  const handleCancel = () => {
     setEdit(false);
-    setEditingTodoId(null);
+    setEditingTodoId("");
     setTodoInput('');
   };
 
@@ -115,38 +118,21 @@ const handleInputKeyDown = (e) => {
     handleFormSubmit,
     isEditing: edit,
     handleUpdate,
-    handleCancelEdit,
+    handleCancel,
      filteredData:filteredData(),
     handleDelete,
     handleCheckboxChange,
     handleFilterButton,
     handleEdit,
+    handleInputKeyDown 
+     ,handleInputChange
   };
 
   return (
     <TodoContext.Provider value={contextValue}>
       <div className='w-[60%] max-lg:[100%] max-sm:w-[100%] overflow-y-hidden m-auto pb-10'>
-        <Form
-         
-          handleFormSubmit={handleFormSubmit}
-          input={todoinput}
-          setTodoInput={setTodoInput}
-          isEditing={edit}
-          handleUpdate={handleUpdate}
-          handleCancel={handleCancelEdit}
-          onkeyprees={handleInputKeyDown}
-        />
-        <List
-           tododata={tododata}
-        handleDelete={handleDelete}
-        handleCheckboxChange={handleCheckboxChange}
-        handleEdit={handleEdit}
-        handleFilterButton={handleFilterButton}
-        filteredData={filteredData}
-        edit={edit}
-        sortedtodo={sortedtodo}
-        editingTodoId={editingTodoId}    
-            />
+        <Form/>
+        <List/>
       </div>
     </TodoContext.Provider>
   );
