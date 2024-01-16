@@ -18,8 +18,7 @@ function List() {
     edit,
     editingTodoId
     } = useTodoContext();
-
-
+    
   return (
     <>
       <div>
@@ -61,11 +60,9 @@ function List() {
                         <Icon
                           type="delete"
                           handleClick={() => handleDelete(todo.id)}
-                          color="text-red-500"
                         />
                         <Icon
                           type="edit"
-                          color="text-blue-500"
                           handleClick={() => {
                             handleEdit(todo.id);
                           }}

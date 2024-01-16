@@ -4,7 +4,7 @@ import List from './components/List';
 import PropTypes from 'prop-types';
 import { v4 as uuidv4 } from 'uuid';
 import TodoContext from './TodoContext';
-import {toast} from 'react-toastify'
+
 function App() {
   const [todoinput, setTodoInput] = useState('');
   const [error, seterror] = useState(false)
@@ -15,7 +15,7 @@ function App() {
   const [sortedtodo, setSortedtodo] = useState('all');
   const [edit, setEdit] = useState(false);
   const [editingTodoId, setEditingTodoId] = useState(null);
-  const[color , setColor ] = useState("bg-red-300")
+
   const buttonData = [
     {
       title: "All",
@@ -51,8 +51,6 @@ function App() {
       handleFormSubmit();
     }
   };
-
- 
 
   const handleAddTodo = () => {
     if (todoinput.trim() !== '') {
@@ -158,7 +156,6 @@ function App() {
     handleInputKeyDown,
     buttonData,
     error,seterror,
-    color , setColor,
   };
   return (
     <TodoContext.Provider value={contextValue}>

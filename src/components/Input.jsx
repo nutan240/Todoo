@@ -1,8 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { useTodoContext } from '../TodoContext';
-function Input({width ,type , handleInputChange}) {
-  const { todoinput,handleInputKeyDown ,checked} = useTodoContext();
+function Input({width ,type , handleInputChange ,checked}) {
+  const { todoinput,handleInputKeyDown } = useTodoContext();
   
   return (
     <>
