@@ -1,16 +1,38 @@
-import React, { useState } from 'react';
+import React, { useState ,useEffect } from 'react';
 import Form from './components/Form';
 import List from './components/List';
 import PropTypes from 'prop-types';
 import { v4 as uuidv4 } from 'uuid';
 import TodoContext from './TodoContext';
-
+import {toast} from 'react-toastify'
 function App() {
   const [todoinput, setTodoInput] = useState('');
-  const [tododata, setTododata] = useState([]);
+  const [error, seterror] = useState(false)
+  const [tododata, setTododata] = useState(() => {
+    const storedData = localStorage.getItem('tododata');
+    return storedData ? JSON.parse(storedData) : [];
+  });
   const [sortedtodo, setSortedtodo] = useState('all');
   const [edit, setEdit] = useState(false);
   const [editingTodoId, setEditingTodoId] = useState(null);
+  const[color , setColor ] = useState("bg-red-300")
+  const buttonData = [
+    {
+      title: "All",
+      type: "all",
+      color: sortedtodo === "all" ? "bg-gray-400" : "bg-white",
+    },
+    {
+      title: "Complete",
+      type: "completed",
+      color: sortedtodo === "completed" ? "bg-green-300" : "bg-white-500",
+    },
+    {
+      title: "Incomplete",
+      type: "incompleted",
+      color: sortedtodo === "incompleted" ? "bg-blue-200" : "bg-white",
+    },
+  ];
 
   const handleFormSubmit = (e) => {
     if (edit) {
@@ -24,12 +46,13 @@ function App() {
     setTodoInput(e.target.value);
   };
 
-const handleInputKeyDown = (e) => {
-  // console.log('vcgcvnb');
-  if (e.key === 'Enter') {
-    handleFormSubmit();
-  }
-};
+  const handleInputKeyDown = (e) => {
+    if (e.key === 'Enter') {
+      handleFormSubmit();
+    }
+  };
+
+ 
 
   const handleAddTodo = () => {
     if (todoinput.trim() !== '') {
@@ -44,18 +67,22 @@ const handleInputKeyDown = (e) => {
   };
 
   const handleUpdate = () => {
-    if (todoinput.trim() !== '') {
-    if (editingTodoId) {
+    if (todoinput.trim() !== '' && editingTodoId !== null) {
       setTododata((prevData) =>
         prevData.map((todo) =>
           todo.id === editingTodoId ? { ...todo, name: todoinput } : todo
         )
+        
       );
       setEdit(false);
       setEditingTodoId(null);
       setTodoInput('');
+    } 
+    else{
+      seterror(true)
+      setEdit(true)
     }
-  }
+
   };
 
   const handleDelete = (id) => {
@@ -82,7 +109,7 @@ const handleInputKeyDown = (e) => {
 
   const handleCancel = () => {
     setEdit(false);
-    setEditingTodoId("");
+    setEditingTodoId(null);
     setTodoInput('');
   };
 
@@ -100,8 +127,11 @@ const handleInputKeyDown = (e) => {
       default:
         return tododata;
     }
-  };
+  }
   
+  useEffect(() => {
+    localStorage.setItem('tododata', JSON.stringify(tododata));
+  }, [tododata]);
 
   const contextValue = {
     todoinput,
@@ -111,6 +141,7 @@ const handleInputKeyDown = (e) => {
     sortedtodo,
     setSortedtodo,
     edit,
+    badge: "completed",
     setEdit,
     editingTodoId,
     setEditingTodoId,
@@ -119,20 +150,21 @@ const handleInputKeyDown = (e) => {
     isEditing: edit,
     handleUpdate,
     handleCancel,
-     filteredData:filteredData(),
+    filteredData: filteredData(),
     handleDelete,
     handleCheckboxChange,
     handleFilterButton,
     handleEdit,
-    handleInputKeyDown 
-     ,handleInputChange
+    handleInputKeyDown,
+    buttonData,
+    error,seterror,
+    color , setColor,
   };
-
   return (
     <TodoContext.Provider value={contextValue}>
       <div className='w-[60%] max-lg:[100%] max-sm:w-[100%] overflow-y-hidden m-auto pb-10'>
-        <Form/>
-        <List/>
+        <Form />
+        <List />
       </div>
     </TodoContext.Provider>
   );

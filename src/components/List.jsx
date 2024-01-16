@@ -14,28 +14,11 @@ function List() {
     handleCheckboxChange,
     handleEdit,
     handleFilterButton,
-    sortedtodo,
+    buttonData,
     edit,
     editingTodoId
-  } = useTodoContext();
+    } = useTodoContext();
 
-  const buttonData = [
-    {
-      title: "All",
-      type: "all",
-      color: sortedtodo === "all" ? "bg-gray-400" : "bg-white",
-    },
-    {
-      title: "Complete",
-      type: "completed",
-      color: sortedtodo === "completed" ? "bg-green-300" : "bg-white-500",
-    },
-    {
-      title: "Incomplete",
-      type: "incompleted",
-      color: sortedtodo === "incompleted" ? "bg-blue-200" : "bg-white",
-    },
-  ];
 
   return (
     <>
@@ -58,7 +41,7 @@ function List() {
                 <div
                   className={`border ${
                     edit && todo.id === editingTodoId
-                      ? "border-blue-300"
+                      ? "border-blue-300 border-4"
                       : "border-slate-300"
                   }  rounded-md pl-2 pr-4 py-1 text-balance break-words mb-2 mt-1  flex`}
                   key={todo.id}

@@ -5,6 +5,7 @@ import { faTrashAlt, faEdit } from '@fortawesome/free-solid-svg-icons';
  
 
 function Icon({ type, handleClick, color }) {
+
   let iconToRender;
   switch (type) {
     case 'delete':
