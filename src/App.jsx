@@ -85,6 +85,7 @@ function App() {
 
   const handleDelete = (id) => {
     setTododata((prevTodos) => prevTodos.filter((todo) => todo.id !== id));
+    setTodoInput("");
   };
 
   const handleCheckboxChange = (id) => {

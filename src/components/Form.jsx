@@ -26,15 +26,17 @@ function Form() {
     <>
       <div className="mb-5 pl-4 overflow-y-hidden mt-20 mr-10 whitespace-nowrap">
         <h1 className="font-serif text-3xl">Todo</h1>
-        {todoinput === "" && error && isEditing ? (
-          <h6 className="text-red-600">please Enter todo.......</h6>
-        ) : null}
+       
         <Input
-          width="w-[100%]"
+          width="w-[97%]"
           handleInputChange={handleInputChange}
           input={todoinput}
         />
-        <br />
+         <div className="
+         h-4 ">{todoinput === "" && error && isEditing ? (
+          <h6 className="text-red-600 h-3 pb-2 text-sm/[10px] . ">please Enter todo.......</h6>
+        ) : null}</div>
+       
         {buttons.map((button) => (
           <Button
             key={button.title}
