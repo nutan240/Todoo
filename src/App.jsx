@@ -1,21 +1,42 @@
-import React, { useState } from 'react';
+import React, { useState ,useEffect } from 'react';
 import Form from './components/Form';
 import List from './components/List';
 import PropTypes from 'prop-types';
 import { v4 as uuidv4 } from 'uuid';
+import TodoContext from './TodoContext';
+
 function App() {
   const [todoinput, setTodoInput] = useState('');
-  const [tododata, setTododata] = useState([]);
+  const [error, seterror] = useState(false)
+  const [tododata, setTododata] = useState(() => {
+    const storedData = localStorage.getItem('tododata');
+    return storedData ? JSON.parse(storedData) : [];
+  });
   const [sortedtodo, setSortedtodo] = useState('all');
   const [edit, setEdit] = useState(false);
   const [editingTodoId, setEditingTodoId] = useState(null);
-  
+
+  const buttonData = [
+    {
+      title: "All",
+      type: "all",
+      color: sortedtodo === "all" ? "bg-gray-400" : "bg-white",
+    },
+    {
+      title: "Complete",
+      type: "completed",
+      color: sortedtodo === "completed" ? "bg-green-300" : "bg-white-500",
+    },
+    {
+      title: "Incomplete",
+      type: "incompleted",
+      color: sortedtodo === "incompleted" ? "bg-blue-200" : "bg-white",
+    },
+  ];
 
   const handleFormSubmit = (e) => {
-    e.preventDefault();
     if (edit) {
-      handleUpdateTodo();
-      
+      handleUpdate();
     } else {
       handleAddTodo();
     }
@@ -23,6 +44,12 @@ function App() {
 
   const handleInputChange = (e) => {
     setTodoInput(e.target.value);
+  };
+
+  const handleInputKeyDown = (e) => {
+    if (e.key === 'Enter') {
+      handleFormSubmit();
+    }
   };
 
   const handleAddTodo = () => {
@@ -37,21 +64,28 @@ function App() {
     }
   };
 
-  const handleUpdateTodo = () => {
-    if (editingTodoId) {
+  const handleUpdate = () => {
+    if (todoinput.trim() !== '' && editingTodoId !== null) {
       setTododata((prevData) =>
-        prevData.map((e) =>
-          e.id === editingTodoId ? { ...e, name: todoinput } : e
+        prevData.map((todo) =>
+          todo.id === editingTodoId ? { ...todo, name: todoinput } : todo
         )
+        
       );
       setEdit(false);
       setEditingTodoId(null);
       setTodoInput('');
+    } 
+    else{
+      seterror(true)
+      setEdit(true)
     }
+
   };
 
   const handleDelete = (id) => {
     setTododata((prevTodos) => prevTodos.filter((todo) => todo.id !== id));
+    setTodoInput("");
   };
 
   const handleCheckboxChange = (id) => {
@@ -64,19 +98,22 @@ function App() {
 
   const handleEdit = (id) => {
     const editTodo = tododata.find((e) => e.id === id);
-    setTodoInput(editTodo.name);
-    setEdit(true);
-    setEditingTodoId(id);
+
+    if (editTodo) {
+      setTodoInput(editTodo.name);
+      setEdit(true);
+      setEditingTodoId(id);
+    }
   };
 
-  const handleCancelEdit = () => {
+  const handleCancel = () => {
     setEdit(false);
     setEditingTodoId(null);
     setTodoInput('');
   };
 
-  const handleFilterButton = (filterType) => {
-    setSortedtodo(filterType);
+  const handleFilterButton = (filteredData) => {
+    setSortedtodo(filteredData);
   };
 
   const filteredData = () => {
@@ -86,33 +123,48 @@ function App() {
       case 'incompleted':
         return tododata.filter((todo) => !todo.check);
       case 'all':
+      default:
         return tododata;
     }
-  };
+  }
+  
+  useEffect(() => {
+    localStorage.setItem('tododata', JSON.stringify(tododata));
+  }, [tododata]);
 
+  const contextValue = {
+    todoinput,
+    setTodoInput,
+    tododata,
+    setTododata,
+    sortedtodo,
+    setSortedtodo,
+    edit,
+    badge: "completed",
+    setEdit,
+    editingTodoId,
+    setEditingTodoId,
+    handleInputChange,
+    handleFormSubmit,
+    isEditing: edit,
+    handleUpdate,
+    handleCancel,
+    filteredData: filteredData(),
+    handleDelete,
+    handleCheckboxChange,
+    handleFilterButton,
+    handleEdit,
+    handleInputKeyDown,
+    buttonData,
+    error,seterror,
+  };
   return (
-    <div className='w-[60%] max-lg:[100%] max-sm:w-[100%] overflow-y-hidden m-auto pb-10'>
-      <Form
-        handleInputChange={handleInputChange}
-        handleFormSubmit={handleFormSubmit}
-        input={todoinput}
-        setTodoInput={setTodoInput}
-        isEditing={edit}
-        handleUpdate={handleUpdateTodo}
-        handleCancel={handleCancelEdit}
-      />
-      <List
-        tododata={tododata}
-        handleDelete={handleDelete}
-        handleCheckboxChange={handleCheckboxChange}
-        handleEdit={handleEdit}
-        handleFilterButton={handleFilterButton}
-        filteredData={filteredData()}
-        edit={edit}
-        sortedtodo={sortedtodo}
-        editingTodoId={editingTodoId}
-      />
-    </div>
+    <TodoContext.Provider value={contextValue}>
+      <div className='w-[60%] max-lg:[100%] max-sm:w-[100%] overflow-y-hidden m-auto pb-10'>
+        <Form />
+        <List />
+      </div>
+    </TodoContext.Provider>
   );
 }
 
